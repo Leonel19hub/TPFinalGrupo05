@@ -55,7 +55,8 @@ public class UsuarioController {
 		}		
 		
 		model.addAttribute("formUsuarioErrorMessage", "Usuario guardado correctamente");
-		model.addAttribute("unUsuario", nuevoUsuario);			
+		model.addAttribute("unUsuario", nuevoUsuario);	
+		model.addAttribute("band", false);
 		return "registroUsuario";
 	}
 	 @GetMapping("/listadoUsuario")	
