@@ -7,7 +7,6 @@ import javax.persistence.Id;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
@@ -16,101 +15,82 @@ import org.springframework.stereotype.Component;
 @Component
 public class Usuario {
 	
-	private Integer idUser;
-	@NotEmpty
-	private String apellido;
-	@NotEmpty
-	@Size (min=3, max=10, message="El nombre de contener entre 3 a 10 caracteres")
+	@NotEmpty(message = "Por favor ingrese su nombre")
 	private String nombre;
-	@Id
-	@Min (value=1000000, message= "El DNI debe ser mayor que millon")
-	@Max (value=99999999, message= "El DNI debe ser menor que 99999999")
-	private Long dni;
+	@NotEmpty(message = "Por favor ingrese su apellido")
+	private String apellido;
 	private String email;
-	@NotEmpty
-	private String contra;
-	
-	private String tipoUser;
+	private String contrasena;
 	private Boolean estado;
+	@Max (value = 99999999, message="El DNI debe ser menor a 99.999.999")
+	@Min (value = 10000000, message="El DNI debe ser mayor a 10.000.000")
+	@Id
+	private Long dni;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDate fechanaci;
+	private LocalDate fechaNacimiento;
+	private String tipo;
+	private Boolean permisosAdmin;
 	
 	public Usuario() {
 		// TODO Auto-generated constructor stub
 	}
-
-	public Integer getIdUser() {
-		return idUser;
-	}
-
-	public void setIdUser(Integer idUser) {
-		this.idUser = idUser;
-	}
-
-	public String getApellido() {
-		return apellido;
-	}
-
-	public void setApellido(String apellido) {
-		this.apellido = apellido;
-	}
-
+	
 	public String getNombre() {
 		return nombre;
 	}
-
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-
-	public Long getDni() {
-		return dni;
+	public String getApellido() {
+		return apellido;
 	}
-
-	public void setDni(Long dni) {
-		this.dni = dni;
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
 	}
-
 	public String getEmail() {
 		return email;
 	}
-
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-	public String getContra() {
-		return contra;
+	public String getContrasena() {
+		return contrasena;
 	}
-
-	public void setContra(String contra) {
-		this.contra = contra;
+	public void setContrasena(String contrasena) {
+		this.contrasena = contrasena;
 	}
-
-	public String getTipoUser() {
-		return tipoUser;
-	}
-
-	public void setTipoUser(String tipoUser) {
-		this.tipoUser = tipoUser;
-	}
-
 	public Boolean getEstado() {
 		return estado;
 	}
-
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
 	}
-
-	public LocalDate getFechanaci() {
-		return fechanaci;
+	public Long getDni() {
+		return dni;
+	}
+	public void setDni(Long dni) {
+		this.dni = dni;
+	}
+	public LocalDate getFechaNacimiento() {
+		return fechaNacimiento;
+	}
+	public void setFechaNacimiento(LocalDate fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
+	public String getTipo() {
+		return tipo;
+	}
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 
-	public void setFechanaci(LocalDate fechanaci) {
-		this.fechanaci = fechanaci;
+	public Boolean getPermisosAdmin() {
+		return permisosAdmin;
+	}
+
+	public void setPermisosAdmin(Boolean permisosAdmin) {
+		this.permisosAdmin = permisosAdmin;
 	}
 	
 	
-
 }
