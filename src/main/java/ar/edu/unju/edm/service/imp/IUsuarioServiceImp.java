@@ -1,5 +1,6 @@
 package ar.edu.unju.edm.service.imp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -31,29 +32,49 @@ public class IUsuarioServiceImp implements IUsuarioService{
 	        usuarioRepository.save(usuario);
 		}
 
-	    @Override
-	    public void eliminarUsuario(Integer id) throws Exception {
-	        // TODO Auto-generated method stub
-	        
-	    }
+	 @Override
+		public void eliminarUsuario(Long dni) throws Exception {
+			// TODO Auto-generated method stub
+			Usuario auxiliar = new Usuario();
+	        auxiliar = buscarUsuario(dni);
+	        auxiliar.setEstado(false);
+	        usuarioRepository.save(auxiliar);
+		}
 
-	    @Override
-	    public void modificarUsuario(Usuario usuario) {
-	        // TODO Auto-generated method stub
-	        
-	    }
+		@Override
+		public void modificarUsuario(Usuario usuario) {
+			// TODO Auto-generated method stub
+			usuarioRepository.save(usuario);
+		}
 
-	    @Override
-	    public List<Usuario> listarUsuarios() {
-	        // TODO Auto-generated method stub
-	        return null;
-	    }
+		@Override
+		public List<Usuario> mostrarUsuarios() {
+			// TODO Auto-generated method stub
+			List<Usuario> auxiliar = new ArrayList<>();
+	        auxiliar = (List<Usuario>) usuarioRepository.findAll();
+	        List<Usuario> auxiliar2 = new ArrayList<>();
+			// GRUPO05.info("ingresando al metodo: listarUsuarios");
+			for (int i = 0; i < auxiliar.size(); i++) {
+				// GRUPO05.error("recorriendo: listadoUsuario"+auxiliar.get(i).getDni());
+				
+				if (auxiliar.get(i).getEstado()==true) {
+					auxiliar2.add(auxiliar.get(i));		
+				}            
+	        }
+	        // auxiliar = (List<Usuario>) usuarioRepository.findAll();
+			return auxiliar2;
+		}
 
-	    @Override
-	    public Usuario buscarUsuario(Integer id) throws Exception {
-	        // TODO Auto-generated method stub
-	        return null;
-	    }
+		@Override
+		public Usuario buscarUsuario(Long id) throws Exception {
+			// TODO Auto-generated method stub
+			Usuario usuarioEncontrado = new Usuario();
+			
+	        usuarioEncontrado = usuarioRepository.findByDni(id).orElseThrow(()-> new Exception("Usuario no encontrado"));
+
+			return usuarioEncontrado;
+		}
+
 	    
 	
 	
