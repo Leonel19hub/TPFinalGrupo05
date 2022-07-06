@@ -2,6 +2,12 @@ package ar.edu.unju.edm.model;
 
 import java.time.LocalDate;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
