@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.thymeleaf.org">
+
+<body>
+    <!-- NAV -->
+    <header class="nav-wrapper">
+        <div class="container">
+            <div class="nav">
+                <a href="/index" class="logo">
+                    <i class='bx bx-movie-play bx-tada main-color'></i>Gru<span class="main-color">po</span>05
+                </a>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="/index">Inicio</a></li>
+                    <li>
+                        <!-- ${band}?@{/editarUsuario}:@{/guardarUsuario} -->
+                        <a  href="/login" th:href="@{/logout}" class="button button-hover">
+                            <span id="nameLogin" sec:authentication="name">Iniciar Sesion</span>
+                            <!-- <span th:text="${#authentication.getPrincipal().getUsername()}"></span>
+                        			<span>  Salir </span>
+                        			<span class="float-rigth">
+                        				<i class="fas fa-sing-out-alt"></i>
+                        			</span> -->
+                        </a>
+
+                    </li>
+                </ul>
+                <!-- MOBILE MENU TOGGLE -->
+                <div class="hamburger-menu" id="hamburger-menu">
+                    <div class="hamburger"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- END NAV -->
+</body>
+
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Compra Ticket</title>
+    <link th:rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/5.0.2/css/bootstrap.min.css}">
+    <!-- GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap"
+        rel="stylesheet">
+    <!-- OWL CAROUSEL -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+        integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
+        crossorigin="anonymous" />
+    <!-- BOX ICONS -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <!-- APP CSS -->
+    
+    <link rel="stylesheet" href="../static/css/app.css" th:href="@{/css/app.css}">
+</head>
+
+<style>
+	.nav-menu{
+		padding-top:10px;
+	}
+    article{
+        margin: 50px auto;
+    }
+</style>
+
+<body>
+
+    <div th:insert="/layout/headerCliente :: header"></div>
+    <br>
+
+    <div class="container">
+        <div class="alert alert-success alert-dismissible fade show row" role="alert"
+            th:if="${formUsuarioErrorMessage}">
+            <label th:text="${formUsuarioErrorMessage}"></label>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    <div class="row">
+        <article class="col-3">
+            <form th:object="${unaCompraTicket}" th:action="@{/guardarCompraTicket}" method="post">
+
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Usuario</label>
+                    <select class="form-control" th:field="*{usuario.dni}">
+                        <option th:each="u:${usuarios}" th:value="${u.dni}" th:text="${u.apellido}"></option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Pelicula</label>
+                    <select class="form-control" th:field="*{pelicula.idPelicula}">
+                        <option th:each="c:${peliculas}" th:value="${c.idPelicula}" th:text="${c.nombrePelicula}"></option>
+                    </select>
+                </div>
+
+                <div>
+                    <button type="submit" class="btn btn-primary">Comprar</button>
+                    <a class="btn btn-light" th:href="@{/}">Volver</a>
+                </div>
+
+            </form>
+        </article>
+    </div>
+
+    <div th:insert="/layout/footer :: footer"></div>
+
+    <script th:src="@{/webjars/bootstrap/5.0.2/js/bootstrap.min.js}" type="text/javascript"
+        src="webjars/bootstrap/5.0.0/js/bootstrap.min.js"></script>
+</body>
+
+</html>
