@@ -11,92 +11,86 @@ import javax.validation.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
-@Component
 @Entity
+@Component
 public class Usuario {
+	
+	@NotEmpty(message = "Por favor ingrese su nombre")
 	private String nombre;
-	@NotEmpty(message = "Este campo no puede estar vacio")
+	@NotEmpty(message = "Por favor ingrese su apellido")
 	private String apellido;
-	@NotEmpty(message = "La contrasela no puede estar vacia")
+	private String email;
 	private String contrasena;
-	private String mail;
-	@Max (value = 99999999, message="DNI NO VALIDO: {x/x âˆˆ Z 1.000.000 < x < 99.999.999}")
-	@Min (value = 1000000, message="DNI NO VALIDO: {x/x âˆˆ Z 1.000.000 < x < 99.999.999}")
-	@Id
-	private Integer dni;
-	private String tipoUsuario;
 	private Boolean estado;
+	@Max (value = 99999999, message="El DNI debe ser menor a 99.999.999")
+	@Min (value = 10000000, message="El DNI debe ser mayor a 10.000.000")
+	@Id
+	private Long dni;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDate fechanac;
-
-    public Usuario() {
+	private LocalDate fechaNacimiento;
+	private String tipo;
+	private Boolean permisosAdmin;
+	
+	public Usuario() {
 		// TODO Auto-generated constructor stub
 	}
-
-	public String getMail() {
-		return mail;
-	}
-
-	public void setMail(String mail) {
-		this.mail = mail;
-	}
-
-	public String getContrasena() {
-		return contrasena;
-	}
-
-	public void setContrasena(String contrasena) {
-		this.contrasena = contrasena;
-	}
-
-	public String getApellido() {
-		return apellido;
-	}
-
-	public void setApellido(String apellido) {
-		this.apellido = apellido;
-	}
-
-	public Integer getDni() {
-		return dni;
-	}
-
-	public void setDni(Integer dni) {
-		this.dni = dni;
-	}
-
-	public Boolean getEstado() {
-		return estado;
-	}
-
-	public void setEstado(Boolean estado) {
-		this.estado = estado;
-	}
-
+	
 	public String getNombre() {
 		return nombre;
 	}
-
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-
-	public LocalDate getFechanac() {
-		return fechanac;
+	public String getApellido() {
+		return apellido;
+	}
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getContrasena() {
+		return contrasena;
+	}
+	public void setContrasena(String contrasena) {
+		this.contrasena = contrasena;
+	}
+	public Boolean getEstado() {
+		return estado;
+	}
+	public void setEstado(Boolean estado) {
+		this.estado = estado;
+	}
+	public Long getDni() {
+		return dni;
+	}
+	public void setDni(Long dni) {
+		this.dni = dni;
+	}
+	public LocalDate getFechaNacimiento() {
+		return fechaNacimiento;
+	}
+	public void setFechaNacimiento(LocalDate fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
+	public String getTipo() {
+		return tipo;
+	}
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 
-	public void setFechanac(LocalDate fechanac) {
-		this.fechanac = fechanac;
+	public Boolean getPermisosAdmin() {
+		return permisosAdmin;
 	}
 
-	public String getTipoUsuario() {
-		return tipoUsuario;
+	public void setPermisosAdmin(Boolean permisosAdmin) {
+		this.permisosAdmin = permisosAdmin;
 	}
-
-	public void setTipoUsuario(String tipoUsuario) {
-		this.tipoUsuario = tipoUsuario;
-	}	
-
 	
-
+	
 }
