@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mostrar Peliculas</title>
+	<link th:rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/5.0.2/css/bootstrap.min.css}">
+    <!-- GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap"
+        rel="stylesheet">
+    <!-- OWL CAROUSEL -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+        integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
+        crossorigin="anonymous" />
+    <!-- BOX ICONS -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <!-- APP CSS -->
+    
+    <link rel="stylesheet" href="../static/css/app.css" th:href="@{/css/app.css}">
+    <!--<link rel="stylesheet" href="../static/css/registroUsuario.css" th:href="@{/css/registroUsuario.css}">-->
+    <!-- <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" href="/static/css/style.css"> -->
+    
+</head>
+
+<style>
+	.nav-menu{
+		padding-top:10px;
+	}
+	.color{
+		color: #000;
+	}
+	
+	td{
+		line-height: auto;
+	}
+
+	.small{
+		font-size: 12px;
+	}
+
+</style>
+
+<body class="body-usuarios-cursos">
+
+    <div th:insert="/layout/header :: header"></div>
+    <br>
+	
+	<div class="container">
+		<div class="alert-danger text-center" th:if="${formMovieErrorMessage}" th:text="${formMovieErrorMessage}">
+			Name Error</div>
+		<section>
+			<div class="table-responsive">
+				<table class="table table-sm table-dark table-hover">
+					<thead>
+						<tr class="text-center">
+							<th scope="col">ID Pelicula</th>
+							<th scope="col">Nombre de Pelicula</th>
+							<th scope="col">Sinopsis</th>
+							<th scope="col">Genero</th>
+							<th scope="col">Duracion</th>
+							<th scope="col">Sala</th>
+							<th scope="col">Fecha Estreno</th>
+							<th scope="col">Ultima Fecha</th>
+							<th scope="col">Horario N°1</th>
+							<th scope="col">Horario N°2</th>
+							<th scope="col">Horario N°3</th>
+							<th scope="col">Rating</th>
+							<th scope="col">Link Trailer</th>
+							<th scope="col">Portada</th>
+							<th scope="col">Banner</th>
+							<th scope="col">Edicion</th>
+						</tr>
+					</thead>
+					<tbody class="table-group-divider">
+
+						<tr th:each="mov:${listaPeliculas}" class="text-center">
+							<td class="black" th:text="${mov.idPelicula}"></td>
+							<td class="black" th:text="${mov.nombrePelicula}"></td>
+							<td class="small" th:text="${mov.descripcion}"></td>
+							<td class="black" th:text="${mov.tipo}"></td>
+							<td class="black" th:text="${mov.duracion}"></td>
+							<td class="black" th:text="${mov.sala}"></td>
+							<td class="black" th:text="${mov.fechaInicio}"></td>
+							<td class="black" th:text="${mov.fechaFinal}"></td>
+							<td class="black" th:text="${mov.horario1}"></td>
+							<td class="black" th:text="${mov.horario2}"></td>
+							<td class="black" th:text="${mov.horario3}"></td>
+							<td class="black" th:text="${mov.rating}"></td>
+							<td class="black" th:text="${mov.trailer}"></td>
+							<td class="black">
+								<img th:src="${'data:image/png;base64,'+mov.portada}" alt="" />
+							</td>
+							<td class="black">
+								<img th:src="${'data:image/png;base64,'+mov.banner}" alt="" />
+							</td>
+							<td class="black">
+								<a class="btn btn-warning bx bx-edit" href="#"
+									th:href="@{'/editarPelicula/'+${mov.idPelicula}}"></a>
+								<a class="link-eliminar" href="#"
+									th:onclick="'javascript:confirmarEliminar(\''+${mov.idPelicula}+'\');'">
+									<i class="btn btn-danger bx bx-trash"></i></a>
+							</td>
+
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
+	</div>
+
+
+	<!-- MODAL ELIMINAR Usuario funciona con JS-->
+	<div class="modal fade" id="modalEliminar" tabindex="-1" role="dialog" aria-labelledby="eliminarModal"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title color" id="eliminarModalTitulo">Confirmar Eliminar</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</button>
+				</div>
+				<div class="modal-body">
+					<h6 class="color">¿Seguro quiere eliminar esta Pelicula?</h6>
+				</div>
+				<form>
+					<input class="form-control" type="text" id="identificadorDeUsuario" name="userIdHiddenInput" />
+
+				</form>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" th:onclick="eliminarUsuario()">Si, Borrar</button>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- script que envia datos -->
+	<script type="text/javascript">
+		var exampleModal = document.getElementById('modalEliminar')
+		exampleModal.addEventListener('show.bs.modal', function (event) {
+			// Button that triggered the modal
+			var button = event.relatedTarget
+			// Extract info from data-bs-* attributes
+			var recipient = button.getAttribute('data-bs-mail')
+			var recipient2 = button.getAttribute('data-bs-whatever')
+			// If necessary, you could initiate an AJAX request here
+			// and then do the updating in a callback.
+			//
+			// Update the modal's content.
+			var modalTitle = exampleModal.querySelector('.modal-title')
+			var modalBodyInput = exampleModal
+				.querySelector('.modal-body input')
+
+			modalTitle.textContent = 'Delete User ' + recipient
+			modalBodyInput.value = recipient2
+		})
+	</script>
+    
+
+    <script th:src="@{/webjars/bootstrap/5.0.2/js/bootstrap.min.js}" type="text/javascript"
+        src="webjars/bootstrap/5.0.2/js/bootstrap.min.js"></script>
+        
+	<!-- SCRIPT -->
+    <!-- JQUERY -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!-- OWL CAROUSEL -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous"></script>
+    <!-- APP SCRIPT -->
+    <script th:src="@{/js/app.js}" src="app.js"></script>
+	
+	<script type="text/javascript">
+		function confirmarEliminar(id) {
+			$("#identificadorDeUsuario").val(id);
+			$('#modalEliminar').modal('show');
+		}
+
+		function eliminarUsuario() {
+			var id = $("#identificadorDeUsuario").val();
+			window.location = "/eliminarPelicula/" + id;
+		}
+	</script>
+
+</body>
+
+</html>
