@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&family=Open+Sans:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+:root {
+    /* --main-color: #c0392b; */
+    --main-color: #1aaf35;
+    --body-bg: #181616;
+    --box-bg: #221f1f;
+    --text-color: #ffffff;
+
+    --nav-height: 60px;
+    --space-top: 30px;
+}
+
+.container-details-movie{
+    width: 1000px;
+    margin: 0 auto;
+}
+
+.details-movie-header h1{
+    color: var(--text-color);
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    text-align: center;
+
+}
+
+.movie-trailer-info{
+    display: flex;
+}
+
+.info{
+    width: 100%;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.info-title h4{
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.info-date{
+    display: flex;
+    margin: 10px 0 ;
+}
+
+.date{
+    background-color: var(--main-color);
+    /* width: 120px; */
+    width: 30%;
+    padding-left: 10px;
+    /* text-align: center; */
+    /* margin-right: 20px; */
+}
+
+.date-content{
+    /* background-color: #000; */
+    padding-left: 20px;
+    width: 70%;
+}
+
+.row-time{
+    display: flex;
+    width: 70px;
+    padding-left: 10px;
+    /* justify-content: space-around; */
+    /* background-color: #000; */
+}
+
+.time-movie{
+    /* background-color: red; */
+    /* width: calc(100% / 3); */
+    padding: 0 10px;
+}
+
+.movie-info{
+    /* background-color: yellow; */
+    width: 1000px;
+    height: 400px;
+    /* padding-top: 20px; */
+    display: flex;
+    /* justify-content: center; */
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.movie-info .img{
+    /* background-color: #1aaf35; */
+    /* display: block; */
+    width: 300px;
+    height: 400px;
+    /* box-sizing: cover; */
+    /* overflow: hidden; */
+    /* height: 400px; */
+}
+
+.movie-info .img img{
+    width: 100%;
+    height: 100%;
+}
+
+.movie-info-complete{
+    /* background-color: aqua; */
+    height: 400px;
+    width: 700px;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.movie-info-item{
+    display: flex;
+    font-size: 1rem;
+}
+
+.h4{
+}
