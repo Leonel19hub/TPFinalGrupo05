@@ -1,18 +1,22 @@
-package ar.edu.unju.edm.service;
+package ar.edu.unju.edm.service.imp;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
 import ar.edu.unju.edm.model.Usuario;
 import ar.edu.unju.edm.repository.UsuarioRepository;
 
-
 @Service
-public class LoginService implements UserDetailsService {
-	
+public class LoginService implements UserDetailsService{
+
 	@Autowired
 	UsuarioRepository usuarioRepository;
 	
@@ -20,19 +24,19 @@ public class LoginService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String dni) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
 		
-		//Busqueda de usuario
-		Usuario usuarioEncontrado=usuarioRepository.findById(Long.parseLong(dni).orElseThrow(()->new UsernameNoteFoundException("Usuario Invalido"));
+		//busqueda del usuario
+		Usuario usuarioEncontrado = usuarioRepository.findByDni(Long.parseLong(dni)).orElseThrow(()->new UsernameNotFoundException("Usuario Invalido"));
 		
-		//Definir Autorizaciones
-		List <GrantedAuthority> tipoUser = new ArrayList<>();
-		GrantedAutority grantedAuthority = new SimpleGrantedAuthority (usuarioEncontrado.getTipoUser());
-		TipoUser.add(grantedAuthority);
+		//definir autorizaciones
+		List <GrantedAuthority> tipos = new ArrayList<>();
+		GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(usuarioEncontrado.getTipo());
+		tipos.add(grantedAuthority);
 		
-		//Definir el usuario en sesion
-		UserDetails usuarioEnSesion = new User(dni,usuarioEncontrado.getContra(),tipoUser);
-		
-		
-		return usuarioEnsesion;
-	}
+		//definir el usuario en sesion
 
+		UserDetails usuarioEnSesion = new User(dni,usuarioEncontrado.getContrasena(),tipos);
+		
+		return usuarioEnSesion;
+	}
+	
 }
