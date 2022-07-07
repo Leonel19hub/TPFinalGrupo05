@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inisiar Sesion</title>
+    <!-- GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap"
+        rel="stylesheet">
+    <!-- OWL CAROUSEL -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+        integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
+        crossorigin="anonymous" />
+    <!-- BOX ICONS -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <!-- APP CSS -->
+
+    <link rel="stylesheet" href="../static/css/app.css" th:href="@{/css/app.css}">
+    <link rel="stylesheet" href="../static/css/login.css" th:href="@{/css/login.css}">
+    <!--<link rel="stylesheet" href="../static/css/registroUsuario.css" th:href="@{/css/registroUsuario.css}">-->
+    <!-- <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" href="/static/css/style.css"> -->
+
+</head>
+
+
+
+<body class="body-usuarios-cursos">
+
+    <div th:insert="/layout/headerCliente :: header"></div>
+    <br>
+    <!-- <i class='bx bx-user' ></i> -->
+
+    <div class="wrapper">
+        <form class="login" form th:object="${usuarioDeForm}" th:action="@{/login}" method="post">
+            <p class="title">Iniciar Sesion</p>
+            <input type="text" placeholder="DNI" class="form-control" id="dni" name="dni" autofocus />
+            <i class='bx bx-user' ></i>
+            <input type="password" placeholder="Contraseña" class="form-control" id="password" name="contrasena"/>
+            <i class='bx bxs-key'></i>
+            <a href="/registroUsuario">¿No tiene una cuenta?</a>
+            <button>
+                <i class="spinner"></i>
+                <button type="submit" class="state">Ingresar</button>
+                <!-- <span class="state">Iniciar Sesion</span> -->
+            </button>
+        </form>
+        </p>
+    </div>
+
+
+    <!-- <main>
+        <div class="centrar">
+            <div class="col-md-7 col-lg-8 center">
+                <form th:object="${usuarioDeForm}" th:action="@{/login}" method="post">
+                    <div class="row g-3">
+                        <div class="col-6 col-sm-6">
+                            <label for="nombre" class="form-label">DNI</label>
+                            <input type="text" class="form-control" id="dni" name="dni">
+                        </div>
+                        <div class="col-6 col-sm-6">
+                            <label for="nombre" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="password" name="contrasena">
+                        </div>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-success">Ingresar</button>
+                    <a href="/registroUsuario">No tienes una cueta?</a>
+                </form>
+            </div>
+        </div>
+    </main> -->
+
+    <div th:if="${param.error}" class="alert alert-danger" role="alert">
+        Combinacion invalida de usuario
+    </div>
+    <div th:if="${param.logout}" class="alert alert-success" role="alert">
+        Ha salido del sistema. Gracias!
+    </div>
+
+    <script th:src="@{/webjars/bootstrap/5.0.0/js/bootstrap.min.js}" type="text/javascript"
+        src="webjars/bootstrap/5.0.0/js/bootstrap.min.js"></script>
+
+    <!-- SCRIPT -->
+    <!-- JQUERY -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!-- OWL CAROUSEL -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
+        integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
+        crossorigin="anonymous"></script>
+    <!-- APP SCRIPT -->
+    <script th:src="@{/js/app.js}" src="app.js"></script>
+
+
+</body>
+
+</html>
