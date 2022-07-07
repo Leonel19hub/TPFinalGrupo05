@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cargar Usuario</title>
+	<link th:rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/5.0.2/css/bootstrap.min.css}">
+    <!-- GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap"
+        rel="stylesheet">
+    <!-- OWL CAROUSEL -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+        integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
+        crossorigin="anonymous" />
+    <!-- BOX ICONS -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <!-- APP CSS -->
+    
+    <link rel="stylesheet" href="../static/css/app.css" th:href="@{/css/app.css}">
+    <!--<link rel="stylesheet" href="../static/css/registroUsuario.css" th:href="@{/css/registroUsuario.css}">-->
+    <!-- <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" href="/static/css/style.css"> -->
+    
+</head>
+
+<style>
+	.nav-menu{
+		padding-top:10px;
+	}
+	.center{
+		margin:50px auto;
+	}
+	.centrar{
+		margin:0 20px;
+	}
+	body{
+    	background-image: url(../static/img/fondo.jpg);
+    	background-size: cover;
+}
+</style>
+
+<body class="body-usuarios-cursos">
+
+    <div th:insert="/layout/headerCliente :: header"></div>
+    <br>
+
+    <div class="container">
+        <div class="alert alert-success alert-dismissible fade show row" role="alert"
+            th:if="${formUsuarioErrorMessage}">
+            <label th:text="${formUsuarioErrorMessage}"></label>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    <main>
+        <div class="centrar">
+            <div class="col-md-7 col-lg-8 center">
+                <form class="upload-User-Course" th:object="${unUsuario}"
+                    th:action="${band}?@{/editarUsuario}:@{/guardarUsuario}" method="post">
+                    <input type="hidden" class="form-control" th:if="${band}" th:field="*{contrasena}">
+                    <input type="hidden" class="form-control" th:if="${band}" th:field="*{dni}">
+                    <input type="hidden" class="form-control" th:if="${band}" th:field="*{tipo}">
+                    <input type="hidden" class="form-control" th:if="${band}" th:field="*{estado}">
+                    <div class="row g-3">
+                        <div class="col-6 col-sm-6">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="nombre" th:field="*{nombre}">
+                            <div class="alert alert-danger" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+                        </div>
+                        <div class="col-6 col-sm-6">
+                            <label for="apellido" class="form-label">Apellido</label>
+                            <input type="text" class="form-control" id="apellido" th:field="*{apellido}">
+                            <div class="alert alert-danger" th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></div>
+                        </div>
+                        <div class="col-6">
+                            <label for="mail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="mail" placeholder="you@example.com"
+                                th:field="*{email}" required>
+                        </div>
+                        <div class="col-6" th:if="${band == false}">
+                            <label for="contraseña" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="contraseña"
+                                placeholder="Ingrese su contraseña" th:field="*{contrasena}">
+                            <div class="alert alert-danger" th:if="${#fields.hasErrors('contrasena')}" th:errors="*{contrasena}"></div>
+                        </div>
+                        <div class="col-6 col-sm-6" th:if="${band == false}">
+                            <label for="dni" class="form-label">DNI</label>
+                            <input type="number" class="form-control" id="dni" placeholder="12345678" th:field="*{dni}">
+                            <div class="alert alert-danger" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"></div>
+                        </div>
+                        <div class="col-6 col-sm-6">
+                            <label for="fechnac" class="form-label">Fecha de Nacimiento</label>
+                            <input type="date" class="form-control" id="fechanac" th:field="*{fechaNacimiento}">
+                        </div>
+                        <div class="tipoUsuario" th:if="${band == false}">
+                        	<label class="form-label">Elija un Tipo de Usuario</label>
+                        	<div class="form-check">
+  								<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="CLIENTE" th:field="*{tipo}" checked>
+  								<label class="form-check-label" for="exampleRadios1">CLIENTE</label>
+							</div>
+							<div class="form-check">
+  								<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="ADMIN" th:field="*{tipo}">
+  								<label class="form-check-label" for="exampleRadios2">ADMIN</label>
+							</div>
+                        </div>
+                        
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-primary" ><span th:text="${band}?'Modificar':'Registrarse'"></span>  </button>
+                    <!--<a class="btn btn-light" th:href="@{/}">Volver</a>-->
+                </form>
+      </div>
+    </div>
+    </main> 
+
+    <script th:src="@{/webjars/bootstrap/5.0.0/js/bootstrap.min.js}" type="text/javascript"
+        src="webjars/bootstrap/5.0.0/js/bootstrap.min.js"></script>
+        
+	<!-- SCRIPT -->
+    <!-- JQUERY -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!-- OWL CAROUSEL -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous"></script>
+    <!-- APP SCRIPT -->
+    <script th:src="@{/js/app.js}" src="app.js"></script>
+	
+
+</body>
+
+</html>
