@@ -8,6 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
@@ -18,11 +21,16 @@ public class Pelicula {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idPelicula;
+	@NotEmpty(message = "Este campo no puede estar vacio")
     private String nombrePelicula;
+	@NotEmpty(message = "Este campo no puede estar vacio")
     private String descripcion;
     // private String[] tipo; 
+	@NotEmpty(message = "Escriba al menos un genero de pelicula")
     private String tipo; // Genero de pelicula
-    private String duracion;
+    @Max (value = 600, message="La pelicula no puede durar mas de 10 horas")
+	@Min (value = 10, message="La pelicula ")
+    private int duracion;
     private Integer sala; // 1 sala
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fechaInicio;
@@ -39,12 +47,11 @@ public class Pelicula {
     @Lob
     private String banner;
     private Boolean estadoBanner;
-	private Boolean permisosCliente;
     
     public Pelicula() {
 		// TODO Auto-generated constructor stub
 	}
-
+    
 	public Integer getIdPelicula() {
 		return idPelicula;
 	}
@@ -75,14 +82,6 @@ public class Pelicula {
 
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
-	}
-
-	public String getDuracion() {
-		return duracion;
-	}
-
-	public void setDuracion(String duracion) {
-		this.duracion = duracion;
 	}
 
 	public Integer getSala() {
@@ -180,6 +179,14 @@ public class Pelicula {
 	public void setEstadoBanner(Boolean estadoBanner) {
 		this.estadoBanner = estadoBanner;
 	}
+
+    public int getDuracion() {
+        return duracion;
+    }
+
+    public void setDuracion(int duracion) {
+        this.duracion = duracion;
+    }
     
     
 }
