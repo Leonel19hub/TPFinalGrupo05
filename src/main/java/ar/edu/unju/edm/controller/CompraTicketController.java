@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.unju.edm.model.CompraTicket;
+import ar.edu.unju.edm.model.Usuario;
 import ar.edu.unju.edm.service.ICompraTicketService;
 import ar.edu.unju.edm.service.IPeliculaService;
 import ar.edu.unju.edm.service.IUsuarioService;
@@ -101,7 +102,7 @@ public class CompraTicketController {
 	}
 
 	@GetMapping("/misTickets/{id}")
-	public ModelAndView mostrarMisCompras(@PathVariable Long id, Authentication authentication) {
+	public ModelAndView mostrarMisCompras(@PathVariable Long id, Authentication authentication) throws Exception {
 		ModelAndView modelView = new ModelAndView("misTickets");
 		System.out.println(compraTicketService.listarComprasUsuario(id));
 		modelView.addObject("misCompras", compraTicketService.listarComprasUsuario(id));
@@ -112,6 +113,10 @@ public class CompraTicketController {
 			modelView.addObject("idUsuario", authentication.getName());
 			modelView.addObject("sesion", authentication.getAuthorities().toString());
 			modelView.addObject("band", false);
+			Long idLong = Long.parseLong(authentication.getName());
+			Usuario userDetails = new Usuario();
+			userDetails = usuarioService.buscarUsuario(idLong);
+			modelView.addObject("userDl", userDetails);
 		}
 
 		return modelView;
