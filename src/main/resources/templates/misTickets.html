@@ -2,42 +2,46 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mis Tickets</title>
-<link th:rel="stylesheet" type="text/css"
-	th:href="@{/webjars/bootstrap/5.0.2/css/bootstrap.min.css}">
-<!-- GOOGLE FONTS -->
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link
-	href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap"
-	rel="stylesheet">
-<!-- OWL CAROUSEL -->
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
-	integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
-	crossorigin="anonymous" />
-<!-- BOX ICONS -->
-<link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css'
-	rel='stylesheet'>
-<!-- APP CSS -->
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Mis Tickets</title>
+	<link th:rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/5.0.2/css/bootstrap.min.css}">
+	<!-- GOOGLE FONTS -->
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap"
+		rel="stylesheet">
+	<!-- OWL CAROUSEL -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+		integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
+		crossorigin="anonymous" />
+	<!-- BOX ICONS -->
+	<link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+	<!-- APP CSS -->
 
-<link rel="stylesheet" href="../static/css/app.css"
-	th:href="@{/css/app.css}">
-<!--<link rel="stylesheet" href="../static/css/registroUsuario.css" th:href="@{/css/registroUsuario.css}">-->
-<!-- <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" href="/static/css/style.css"> -->
+	<link rel="stylesheet" href="../static/css/app.css" th:href="@{/css/app.css}">
+	<!--<link rel="stylesheet" href="../static/css/registroUsuario.css" th:href="@{/css/registroUsuario.css}">-->
+	<!-- <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" href="/static/css/style.css"> -->
 
 </head>
 
 <style>
-.nav-menu {
-	padding-top: 10px;
-}
+	.nav-menu {
+		padding-top: 10px;
+	}
 
-.color {
-	color: #000;
-}
+	.color {
+		color: #000;
+	}
+
+	.col-lg-8 {
+		margin: 0 auto;
+	}
+
+	.card {
+		background-color: #181616;
+		border: none;
+	}
 </style>
 
 <body class="body-usuarios-cursos">
@@ -46,10 +50,60 @@
 	<div th:insert="/layout/header :: header"></div>
 	<br>
 
+	<section>
+		<div class="container py-5">
+			<div class="row">
+				<div class="col-lg-8">
+					<div class="card mb-4">
+						<div class="card-body">
+							<div class="row">
+								<div class="col-sm-3">
+									<p class="mb-0">Nombre Completo</p>
+								</div>
+								<div class="col-sm-9">
+									<p class="text-muted mb-0" th:text="${userDl.nombre}+'  '+${userDl.apellido}"></p>
+								</div>
+							</div>
+							<hr>
+							<div class="row">
+								<div class="col-sm-3">
+									<p class="mb-0">Email</p>
+								</div>
+								<div class="col-sm-9">
+									<p class="text-muted mb-0" th:text="${userDl.email}"></p>
+								</div>
+							</div>
+							<hr>
+							<div class="row">
+								<div class="col-sm-3">
+									<p class="mb-0">Fecha de Nacimiento</p>
+								</div>
+								<div class="col-sm-9">
+									<p class="text-muted mb-0" th:text="${userDl.fechaNacimiento}"></p>
+								</div>
+							</div>
+							<hr>
+							<div class="row">
+								<div class="col-sm-3">
+									<p class="mb-0">DNI</p>
+								</div>
+								<div class="col-sm-9">
+									<p class="text-muted mb-0" th:text="${userDl.dni}"></p>
+								</div>
+							</div>
+						</div>
+						<!-- <a th:href="@{'/editarUsuario/'+${userDl.dni}}" class="btn btn-success">Editar Usuario</a> -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
 	<div class="container">
-		<div class="alert-danger text-center"
-			th:if="${formUsuarioErrorMessage}"
-			th:text="${formUsuarioErrorMessage}">Name Error</div>
+		<div class="alert-danger text-center" th:if="${formUsuarioErrorMessage}" th:text="${formUsuarioErrorMessage}">
+			Name Error</div>
+		<!-- <h3 th:text="${userDl.nombre}"></h3> -->
 		<section>
 			<div class="table-responsive">
 				<table class="table table-sm table-dark table-hover">
@@ -57,7 +111,7 @@
 						<tr class="text-center">
 							<th scope="col">ID de Ticket</th>
 							<th scope="col">Nombre de Pelicula</th>
-							<th scope="col">Fecha de Compra</th>
+							<th scope="col">Fecha de Cine</th>
 							<th scope="col">Horario</th>
 							<th scope="col">Edicion</th>
 						</tr>
@@ -69,12 +123,13 @@
 							<td class="black" th:text="${c.pelicula.nombrePelicula}"></td>
 							<td class="black" th:text="${c.fechaCompra}"></td>
 							<td class="black" th:text="${c.horario}"></td>
-							<td class="black"><a class="btn btn-warning bx bx-edit"
-								href="#" th:href="@{'/editarTicket/'+${c.compraTiket}}"></a> <a
-								class="link-eliminar" href="#"
-								th:onclick="'javascript:confirmarEliminar(\''+${c.compraTiket}+'\');'">
+							<td class="black">
+								<!-- <a class="btn btn-warning bx bx-edit"href="#" th:href="@{'/editarTicket/'+${c.compraTiket}}"></a>  -->
+								<a class="link-eliminar" href="#"
+									th:onclick="'javascript:confirmarEliminar(\''+${c.compraTiket}+'\');'">
 									<i class="btn btn-danger bx bx-trash"></i>
-							</a></td>
+								</a>
+							</td>
 
 						</tr>
 					</tbody>
@@ -85,40 +140,36 @@
 
 
 	<!-- MODAL ELIMINAR Usuario funciona con JS-->
-	<div class="modal fade" id="modalEliminar" tabindex="-1" role="dialog"
-		aria-labelledby="eliminarModal" aria-hidden="true">
+	<div class="modal fade" id="modalEliminar" tabindex="-1" role="dialog" aria-labelledby="eliminarModal"
+		aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title color" id="eliminarModalTitulo">Confirmar
 						Eliminar</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</button>
 				</div>
 				<div class="modal-body">
 					<h6 class="color">¿Seguro quiere eliminar este Ticket?</h6>
 				</div>
 				<form>
-					<input class="form-control" type="text" id="identificadorDeUsuario"
-						name="userIdHiddenInput" />
+					<input class="form-control" type="text" id="identificadorDeUsuario" name="userIdHiddenInput" />
 
 				</form>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary"
-						th:onclick="eliminarUsuario()">Si, Borrar</button>
-					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal">Cancelar</button>
+					<button type="button" class="btn btn-primary" th:onclick="eliminarUsuario()">Si, Borrar</button>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
 				</div>
 			</div>
 		</div>
 	</div>
-	
+
 
 	<!-- script que envia datos -->
 	<script type="text/javascript">
 		var exampleModal = document.getElementById('modalEliminar')
-		exampleModal.addEventListener('show.bs.modal', function(event) {
+		exampleModal.addEventListener('show.bs.modal', function (event) {
 			// Button that triggered the modal
 			var button = event.relatedTarget
 			// Extract info from data-bs-* attributes
@@ -130,7 +181,7 @@
 			// Update the modal's content.
 			var modalTitle = exampleModal.querySelector('.modal-title')
 			var modalBodyInput = exampleModal
-					.querySelector('.modal-body input')
+				.querySelector('.modal-body input')
 
 			modalTitle.textContent = 'Delete User ' + recipient
 			modalBodyInput.value = recipient2
@@ -138,18 +189,15 @@
 	</script>
 
 
-	<script th:src="@{/webjars/bootstrap/5.0.2/js/bootstrap.min.js}"
-		type="text/javascript"
+	<script th:src="@{/webjars/bootstrap/5.0.2/js/bootstrap.min.js}" type="text/javascript"
 		src="webjars/bootstrap/5.0.2/js/bootstrap.min.js"></script>
 
 	<!-- SCRIPT -->
 	<!-- JQUERY -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"
-		integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-		crossorigin="anonymous"></script>
+		integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 	<!-- OWL CAROUSEL -->
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
 		integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
 		crossorigin="anonymous"></script>
 	<!-- APP SCRIPT -->
@@ -166,30 +214,30 @@
 			window.location = "/eliminarTicket/" + id;
 		}
 	</script>
-	
+
 	<script>
-			// Ocultar elementos li del header principal 
+		// Ocultar elementos li del header principal 
 
-			var tipoSesion = "[[${sesion}]]";
+		var tipoSesion = "[[${sesion}]]";
 
-			//[CLIENTE]
+		//[CLIENTE]
 
-			if (tipoSesion == "[CLIENTE]") {
-				$("#uploadMovie").hide();
-				$("#viewMovie").hide();
-				$("#viewUser").hide();
-				$("#viewTickets").hide();
-			}
+		if (tipoSesion == "[CLIENTE]") {
+			$("#uploadMovie").hide();
+			$("#viewMovie").hide();
+			$("#viewUser").hide();
+			$("#viewTickets").hide();
+		}
 
-			// Escribir "Cerrar Sesion si no hay ningun usuario logeado"
+		// Escribir "Cerrar Sesion si no hay ningun usuario logeado"
 
-			var bandera = "[[${band}]]";
-			console.log(bandera);
+		var bandera = "[[${band}]]";
+		console.log(bandera);
 
-			if (bandera == "false") {
-				document.getElementById("in-out").textContent = "Cerrar Sesion";
-			}
-		</script>
+		if (bandera == "false") {
+			document.getElementById("in-out").textContent = "Cerrar Sesion";
+		}
+	</script>
 
 </body>
 

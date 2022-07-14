@@ -49,10 +49,10 @@
 					<thead>
 						<tr class="text-center">
 							<th scope="col">ID de Ticket</th>
-							<th scope="col">DNI de Usuario</th>
-							<th scope="col">ID de Pelicula</th>
+							<th scope="col">Nombre de Usuario</th>
+							<th scope="col">Nombre de Pelicula</th>
 
-							<th scope="col">Fecha de Compra</th>
+							<th scope="col">Fecha de Cine</th>
 							<th scope="col">Horario</th>
 							<th scope="col">Edicion</th>
 						</tr>
@@ -66,12 +66,12 @@
 							<td class="black" th:text="${c.pelicula.nombrePelicula}"></td>
 							<td class="black" th:text="${c.fechaCompra}"></td>
 							<td class="black" th:text="${c.horario}"></td>
-							<td class="black"><a class="btn btn-warning bx bx-edit" href="#"
-									th:href="@{'/editarTicket/'+${c.compraTiket}}"></a> <a class="link-eliminar"
-									href="#" th:onclick="'javascript:confirmarEliminar(\''+${c.compraTiket}+'\');'">
+							<td class="black">
+								<!-- <a class="btn btn-warning bx bx-edit" href="#" th:href="@{'/editarTicket/'+${c.compraTiket}}"></a>  -->
+								<a class="link-eliminar" href="#" th:onclick="'javascript:confirmarEliminar(\''+${c.compraTiket}+'\');'">
 									<i class="btn btn-danger bx bx-trash"></i>
-								</a></td>
-
+								</a>
+							</td>
 						</tr>
 					</tbody>
 				</table>
