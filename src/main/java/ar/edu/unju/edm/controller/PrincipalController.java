@@ -10,6 +10,7 @@ import ar.edu.unju.edm.service.IPeliculaService;
 
 @Controller
 public class PrincipalController {
+
 	@Autowired
     IPeliculaService peliculaService;
 	
@@ -21,9 +22,11 @@ public class PrincipalController {
 		modelView.addObject("band", true);
         return modelView;
     }
-	 @GetMapping({"/","login","ingreso"})
-     public String  getLogin() {
-		 
-  	   return "/login";
-	 }
+	
+	
+	@GetMapping("/login")
+	public String ingresar() {
+		return "login";
+	}
+
 }
