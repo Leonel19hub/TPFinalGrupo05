@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,75 +21,54 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.unju.edm.model.Pelicula;
+import ar.edu.unju.edm.model.Usuario;
+import ar.edu.unju.edm.repository.PeliculaRepository;
+import ar.edu.unju.edm.service.ICompraTicketService;
 import ar.edu.unju.edm.service.IPeliculaService;
+import ar.edu.unju.edm.service.IUsuarioService;
 
 @Controller
 public class PeliculaController {
-	
+
 	private static final Log GRUPO05 = LogFactory.getLog(PeliculaController.class);
 
-    @Autowired
-    IPeliculaService peliculaService;
+	@Autowired
+	IPeliculaService peliculaService;
 
-	/*@GetMapping({"/home", "/inicio", "/index", "/"})
-    public ModelAndView inicio(){
-		ModelAndView modelView = new ModelAndView("index");
-		modelView.addObject("mostrarPeliculas", peliculaService.listarPeliculas());
-        return modelView;
-    }*/
-	
+	@Autowired
+	PeliculaRepository peliculaRepository;
+
+	@Autowired
+	ICompraTicketService compraTicketService;
+
+	@Autowired
+	IUsuarioService usuarioService;
+
 	@GetMapping("/nuevaPelicula")
-	public ModelAndView addMovie() {
+	public ModelAndView addMovie(Authentication authentication) {
 		GRUPO05.info("ingresando al metodo: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
 		ModelAndView modelView = new ModelAndView("subirPelicula");
-		modelView.addObject("unaPelicula", peliculaService.nuevaPelicula());		
+		modelView.addObject("unaPelicula", peliculaService.nuevaPelicula());
+		if (authentication == null) {
+
+		} else {
+			modelView.addObject("idUsuario", authentication.getName());
+		}
 		return modelView;
 	}
 
-	// @PostMapping(value="/guardarPelicula", consumes = "multipart/form-data" )
-	// public ModelAndView saveMovie(@Valid @ModelAttribute("unaPelicula") Pelicula peliculaNueva, BindingResult resultado, @RequestParam("file") MultipartFile file) {			
-	// 	ModelAndView modelView = new ModelAndView();
-	// 	if (resultado.hasErrors()) {
-	// 		GRUPO05.fatal("ERROR DE VALIDACION");			
-	// 		modelView.setViewName("subirPelicula");
-	// 		modelView.addObject("unaPelicula", peliculaNueva);			
-	// 		return modelView;
-	// 	}		
-	// 	try {
-	// 		byte[] content = file.getBytes();
-	// 		String base64 = Base64.getEncoder().encodeToString(content);
-	// 		peliculaNueva.setPortada(base64);
-			
-			
-	// 		peliculaNueva.setEstadoPelicula(true);
-	// 		peliculaService.guardarPelicula(peliculaNueva);
-	// 	} catch (Exception e) {			
-	// 		modelView.addObject("subirPeliculaErrorMessage", e.getMessage());
-	// 		modelView.addObject("unaPelicula", peliculaService.nuevaPelicula());
-	// 		GRUPO05.error("saliendo del metodo: eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
-	// 		modelView.setViewName("subirPelicula");
-	// 		return modelView;		
-	// 	}		
-		
-	// 	modelView.addObject("subirPeliculaErrorMessage", "Pelicula guardado correctamente");
-	// 	modelView.addObject("unaPelicula", peliculaService.nuevaPelicula());
-	// 	modelView.addObject("listaPeliculas", peliculaService.listarPeliculas());
-	// 	modelView.setViewName("mostrarPeliculas");
-	// 	return modelView;
-	// 	}
-
-	
-	@PostMapping(value="/guardarPelicula", consumes = "multipart/form-data" )
-	public ModelAndView saveMovie(@Valid @ModelAttribute("unaPelicula") Pelicula peliculaNueva, BindingResult resultado, @RequestParam("file") MultipartFile[] file) {			
+	@PostMapping(value = "/guardarPelicula", consumes = "multipart/form-data")
+	public ModelAndView saveMovie(@Valid @ModelAttribute("unaPelicula") Pelicula peliculaNueva, BindingResult resultado,
+			@RequestParam("file") MultipartFile[] file) {
 		ModelAndView modelView = new ModelAndView();
 		if (resultado.hasErrors()) {
-			GRUPO05.fatal("ERROR DE VALIDACION");			
+			GRUPO05.fatal("ERROR DE VALIDACION");
 			modelView.setViewName("subirPelicula");
-			modelView.addObject("unaPelicula", peliculaNueva);			
+			modelView.addObject("unaPelicula", peliculaNueva);
 			return modelView;
-		}	
-		MultipartFile file1=file[0], file2=file[1];
-		
+		}
+		MultipartFile file1 = file[0], file2 = file[1];
+
 		try {
 			byte[] content = file1.getBytes();
 			String base64 = Base64.getEncoder().encodeToString(content);
@@ -97,29 +77,33 @@ public class PeliculaController {
 			byte[] contentBanner = file2.getBytes();
 			String base64Banner = Base64.getEncoder().encodeToString(contentBanner);
 			peliculaNueva.setBanner(base64Banner);
-			
-			
+
 			peliculaNueva.setEstadoPelicula(true);
 			peliculaService.guardarPelicula(peliculaNueva);
-		} catch (Exception e) {			
+		} catch (Exception e) {
 			modelView.addObject("subirPeliculaErrorMessage", e.getMessage());
 			modelView.addObject("unaPelicula", peliculaService.nuevaPelicula());
 			GRUPO05.error("saliendo del metodo: eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
 			modelView.setViewName("subirPelicula");
-			return modelView;		
-		}		
-		
+			return modelView;
+		}
+
 		modelView.addObject("subirPeliculaErrorMessage", "Pelicula guardado correctamente");
 		modelView.addObject("unaPelicula", peliculaService.nuevaPelicula());
 		modelView.addObject("listaPeliculas", peliculaService.listarPeliculas());
 		modelView.setViewName("mostrarPeliculas");
 		return modelView;
+	}
+
+	@GetMapping("/mostrarPeliculas")
+	public ModelAndView showCourses(Authentication authentication) {
+		ModelAndView vista = new ModelAndView("mostrarPeliculas");
+		vista.addObject("listaPeliculas", peliculaService.listarPeliculas());
+		if (authentication == null) {
+
+		} else {
+			vista.addObject("idUsuario", authentication.getName());
 		}
-	
-	@GetMapping("/mostrarPeliculas")	
-	public ModelAndView showCourses() {
-		ModelAndView vista = new ModelAndView("mostrarPeliculas");		
-		vista.addObject("listaPeliculas", peliculaService.listarPeliculas());		
 		return vista;
 	}
 
@@ -127,17 +111,18 @@ public class PeliculaController {
 	String rescatarPortada, rescatarBanner;
 
 	@GetMapping("/editarPelicula/{idPelicula}")
-	public ModelAndView getFormEditMovie(Model model, @PathVariable(name = "idPelicula") Integer idPelicula) throws Exception{
+	public ModelAndView getFormEditMovie(Model model, @PathVariable(name = "idPelicula") Integer idPelicula)
+			throws Exception {
 		Pelicula peliculaEncontrada = new Pelicula();
 		try {
 			peliculaEncontrada = peliculaService.buscarPelicula(idPelicula);
 		} catch (Exception e) {
 			model.addAttribute("formMovieErrorMessage", e.getMessage());
 		}
-		GRUPO05.info("EL ESTADO DE LA PELICULA ES: "+peliculaEncontrada.getEstadoPelicula());
+		GRUPO05.info("EL ESTADO DE LA PELICULA ES: " + peliculaEncontrada.getEstadoPelicula());
 		ModelAndView modelView = new ModelAndView("subirPelicula");
 		modelView.addObject("unaPelicula", peliculaEncontrada);
-		rescatarId = peliculaEncontrada.getIdPelicula();	
+		rescatarId = peliculaEncontrada.getIdPelicula();
 		rescatarPortada = peliculaEncontrada.getPortada();
 		rescatarBanner = peliculaEncontrada.getBanner();
 		modelView.addObject("band", true);
@@ -145,16 +130,15 @@ public class PeliculaController {
 		return modelView;
 	}
 
-
 	@PostMapping("/editarPelicula")
-	public ModelAndView postEditMovie(@ModelAttribute("peliculaF") Pelicula peliculaModificada){
+	public ModelAndView postEditMovie(@ModelAttribute("peliculaF") Pelicula peliculaModificada) {
 		peliculaModificada.setIdPelicula(rescatarId);
 		peliculaModificada.setPortada(rescatarPortada);
 		peliculaModificada.setBanner(rescatarBanner);
-		GRUPO05.info("EL ID DE LA PELICULA: "+peliculaModificada.getIdPelicula());
+		GRUPO05.info("EL ID DE LA PELICULA: " + peliculaModificada.getIdPelicula());
 		peliculaModificada.setEstadoPelicula(true);
-		GRUPO05.info("EL ESTADO DE LA PELICULA ES: "+peliculaModificada.getEstadoPelicula());
-		
+		GRUPO05.info("EL ESTADO DE LA PELICULA ES: " + peliculaModificada.getEstadoPelicula());
+
 		peliculaService.modificarPelicula(peliculaModificada);
 		ModelAndView modelView = new ModelAndView("mostrarPeliculas");
 
@@ -164,8 +148,8 @@ public class PeliculaController {
 	}
 
 	@GetMapping("/eliminarPelicula/{idPelicula}")
-	public String deleteMovie(@PathVariable Integer idPelicula, Model model){
-		GRUPO05.info("El id de la pelicula a eliminar es: "+idPelicula);
+	public String deleteMovie(@PathVariable Integer idPelicula, Model model) {
+		GRUPO05.info("El id de la pelicula a eliminar es: " + idPelicula);
 		try {
 			peliculaService.eliminarPelicula(idPelicula);
 		} catch (Exception e) {
@@ -175,73 +159,45 @@ public class PeliculaController {
 		}
 		return "redirect:/mostrarPeliculas";
 	}
-	
-	
 
 	@GetMapping("index/movie/{id}")
-	public ModelAndView showDetailsMovie(@PathVariable Integer id, Model model){
+	public ModelAndView showDetailsMovie(@PathVariable Integer id, Model model, Authentication authentication)
+			throws Exception {
 		ModelAndView modelView = new ModelAndView("detallesPelicula");
 		
 		Pelicula pelicula = new Pelicula();
 		Optional<Pelicula> peliculaOptional = peliculaService.buscarPeliculaById(id);
 		pelicula = peliculaOptional.get();
 		GRUPO05.info(pelicula.getTipo());
-		// Pelicula aux = new Pelicula();
 		pelicula.setTrailer(peliculaService.generarLinkTrailer(pelicula));
-		GRUPO05.info("El id es: "+pelicula.getIdPelicula());
-		GRUPO05.info("El link es: "+pelicula.getTrailer());
-		// pelicula.setTrailer("prueba xd");
+		GRUPO05.info("El id es: " + pelicula.getIdPelicula());
+		GRUPO05.info("El link es: " + pelicula.getTrailer());
 		modelView.addObject("movie", pelicula);
-		modelView.addObject("esAdmin", false);
+		modelView.addObject("bandCompra", false);
 		modelView.addObject("linkMovie", pelicula.getTrailer());
+		modelView.addObject("bandSesion", true);
+		modelView.addObject("band", true);
 
-		return modelView;
-	}
-	Integer idMov;
-	@GetMapping("/subirBanner/{id}")
-	public ModelAndView putBanner(@PathVariable Integer id) {
-		GRUPO05.info("INGRESANDO AL METODO PUTBANNER");
-		ModelAndView modelView = new ModelAndView("subirBanner");
-		
-		Pelicula pelicula = new Pelicula();
-		Optional<Pelicula> peliculaOptional = peliculaService.buscarPeliculaById(id);
-		pelicula = peliculaOptional.get();
-		idMov = pelicula.getIdPelicula();
-		modelView.addObject("movieBanner", pelicula);
-		
-		modelView.addObject("peliculas", peliculaService.listarPeliculas());
-		return modelView;
-	}
-
-	@PostMapping(value="/subirBanner", consumes = "multipart/form-data" )
-	public ModelAndView saveBanner(@Valid @ModelAttribute("unaPelicula") Pelicula peliculaNueva, BindingResult resultado, @RequestParam("banner") MultipartFile file) {			
-		ModelAndView modelView = new ModelAndView();
-		if (resultado.hasErrors()) {
-			GRUPO05.fatal("ERROR DE VALIDACION");			
-			modelView.setViewName("subirPelicula");
-			modelView.addObject("unaPelicula", peliculaNueva);			
-			return modelView;
-		}		
-		try {
-			byte[] content = file.getBytes();
-			String base64 = Base64.getEncoder().encodeToString(content);
-			peliculaNueva.setPortada(base64);
+		if (authentication == null) {
+			modelView.addObject("linkMovie", pelicula.getTrailer());
+		} else {
 			
-			
-			peliculaNueva.setEstadoPelicula(true);
-			peliculaService.guardarPelicula(peliculaNueva);
-		} catch (Exception e) {			
-			modelView.addObject("subirPeliculaErrorMessage", e.getMessage());
-			modelView.addObject("movieBanner", peliculaService.nuevaPelicula());
-			GRUPO05.error("saliendo del metodo: eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
-			modelView.setViewName("subirPelicula");
-			return modelView;		
-		}		
-		
-		modelView.addObject("subirPeliculaErrorMessage", "Pelicula guardado correctamente");
-		modelView.addObject("unaPelicula", peliculaService.nuevaPelicula());
-		modelView.addObject("listaPeliculas", peliculaService.listarPeliculas());
-		modelView.setViewName("mostrarPeliculas");
-		return modelView;
+			String usuarioIdCompra = authentication.getName();
+			Long idUsuarioCompra = Long.parseLong(usuarioIdCompra);
+			Usuario usuarioCompra = new Usuario();
+			usuarioCompra = usuarioService.buscarUsuario(idUsuarioCompra);
+			modelView.addObject("unaCompraTicket", compraTicketService.nuevaCompraTicket());
+			modelView.addObject("usuarios", usuarioCompra);
+			modelView.addObject("peliculas", pelicula);
+			modelView.addObject("idUsuario", authentication.getName());
+			modelView.addObject("band", false);
+			modelView.addObject("bandSesion", false);
+			modelView.addObject("ocultar", true);
+			modelView.addObject("bandCompra", true);
+			modelView.addObject("sesion", authentication.getAuthorities().toString());
 		}
+
+		return modelView;
+	}
+
 }

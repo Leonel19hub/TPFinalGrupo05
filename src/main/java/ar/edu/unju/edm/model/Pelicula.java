@@ -39,7 +39,7 @@ public class Pelicula {
     @Lob
     private String banner;
     private Boolean estadoBanner;
-	private Boolean permisosCliente;
+	//private List<String> comentarios = new ArrayList<>();
     
     public Pelicula() {
 		// TODO Auto-generated constructor stub
@@ -180,6 +180,14 @@ public class Pelicula {
 	public void setEstadoBanner(Boolean estadoBanner) {
 		this.estadoBanner = estadoBanner;
 	}
-    
+
+	/*public List<String> getComentarios() {
+		return comentarios;
+	}
+
+	public void setComentarios(List<String> comentarios) {
+		this.comentarios = comentarios;
+	}
+    */
     
 }

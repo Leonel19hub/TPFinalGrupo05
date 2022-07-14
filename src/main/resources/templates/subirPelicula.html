@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subir Pelicula</title>
+	<link th:rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/5.0.2/css/bootstrap.min.css}">
+    <!-- GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap"
+        rel="stylesheet">
+    <!-- OWL CAROUSEL -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+        integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
+        crossorigin="anonymous" />
+    <!-- BOX ICONS -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <!-- APP CSS -->
+    
+    <link rel="stylesheet" href="../static/css/app.css" th:href="@{/css/app.css}">
+    <!--<link rel="stylesheet" href="../static/css/registroUsuario.css" th:href="@{/css/registroUsuario.css}">-->
+    <!-- <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" href="/static/css/style.css"> -->
+    
+</head>
+
+<style>
+	.nav-menu{
+		padding-top:10px;
+	}
+	.center{
+		margin:50px auto;
+	}
+	.centrar{
+		margin:0 20px;
+	}
+	body{
+    	background-image: url(../static/img/fondo.jpg);
+    	background-size: cover;
+}
+</style>
+
+<body class="body-usuarios-cursos">
+
+    <div th:insert="/layout/header :: header"></div>
+    <br>
+
+    <div class="container">
+        <div class="alert alert-success alert-dismissible fade show row" role="alert"
+            th:if="${formMovieErrorMessage}">
+            <label th:text="${formMovieErrorMessage}"></label>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    <main>
+        <div class="centrar">
+            <div class="col-md-7 col-lg-8 center">
+                <form class="upload-User-Course" th:object="${unaPelicula}"
+                    th:action="${band}?@{/editarPelicula}:@{/guardarPelicula}" method="post" enctype="multipart/form-data">
+                    <input type="hidden" class="form-control" th:if="${band}" th:field="*{portada}">
+                    <input type="hidden" class="form-control" th:if="${band}" th:field="*{estadoPelicula}">
+                    <div class="row g-3">
+                        <div class="col-6 col-sm-6">
+                            <label for="nombre" class="form-label">Nombre de Pelicula</label>
+                            <input type="text" class="form-control" id="nombre" th:field="*{nombrePelicula}">
+                        </div>
+                        <div class="col-6 col-sm-6">
+                            <label for="apellido" class="form-label">Genero Pelicula</label>
+                            <input type="text" class="form-control" id="tipo" th:field="*{tipo}">
+                        </div>
+                        <div class="col-4 col-sm-4">
+                            <label for="apellido" class="form-label">N° de Sala</label>
+                            <input type="number" class="form-control" id="sala" th:field="*{sala}">
+                        </div>
+                        <div class="col-4 col-sm-4">
+                            <label for="apellido" class="form-label">Duracion</label>
+                            <input type="number" class="form-control" id="duracion" th:field="*{duracion}">
+                        </div>
+                        <div class="col-4 col-sm-4">
+                            <label for="apellido" class="form-label">Rating</label>
+                            <input type="number" step="0.1" class="form-control" id="rating" th:field="*{rating}">
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <label for="apellido" class="form-label">Trailer Pelicula</label>
+                            <div class="input-group mb-3">
+  								<span class="input-group-text" id="basic-addon3">https://www.youtube.com/watch?v=</span>
+  								<input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" th:field="*{trailer}">
+							</div>
+                        </div>
+                        <div class="col-12 col-sm-6"> 
+  							<label for="formFile" class="form-label">Seleccione Archivo</label>
+  							<input class="form-control" type="file" id="file" name="file" accept="image/x-png,image/gif,image/jpeg,image/png,image/jpeg" onchange="loadFile(event)">
+							<img id="output" style="padding-top: 2px; width: 146px;" />
+						</div>
+						<div class="col-6 col-sm-6"> 
+  							<label for="formFile" class="form-label">Seleccione Archivo de Banner</label>
+  							<input class="form-control" type="file" id="banner" name="file" accept="image/x-png,image/gif,image/jpeg,image/png,image/jpeg" onchange="loadFile(event)">
+							<img id="output" style="padding-top: 2px; width: 146px;" />
+						</div>
+						<div class="col-6 col-sm-6">
+                        	<label class="form-label">Poner en el Slider</label>
+                        	<div class="form-check">
+  								<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="true" th:field="*{estadoBanner}" checked>
+  								<label class="form-check-label" for="exampleRadios1">SI</label>
+							</div>
+							<div class="form-check">
+  								<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="false" th:field="*{estadoBanner}">
+  								<label class="form-check-label" for="exampleRadios2">NO</label>
+							</div>
+                        </div>
+						<div class="col-12 col-sm-12">
+							<label for="form-LABEL">Sinopsis de la Pelicula</label>
+							<div class="form-floating">
+  								<textarea class="form-control" placeholder="Leave a comment here" id="sinopsis" style="height: 100px" th:field="*{descripcion}"></textarea>
+							</div>
+						</div>
+						<div class="col-6 col-sm-6">
+                            <label for="apellido" class="form-label">Fecha de Estreno</label>
+                            <input type="date" class="form-control" id="fechaInicio" th:field="*{fechaInicio}">
+                        </div>
+                        <div class="col-6 col-sm-6">
+                            <label for="apellido" class="form-label">Ultima Fecha</label>
+                            <input type="date" class="form-control" id="fechaFinal" th:field="*{fechaFinal}">
+                        </div>
+                        <div class="col-4 col-sm-4">
+                            <label for="apellido" class="form-label">Horario N°1</label>
+                            <input type="time" class="form-control" id="horario1" th:field="*{horario1}">
+                        </div>
+                        <div class="col-4 col-sm-4">
+                            <label for="apellido" class="form-label">Horario N°2</label>
+                            <input type="time" class="form-control" id="horario2" th:field="*{horario2}">
+                        </div>
+                        <div class="col-4 col-sm-4">
+                            <label for="apellido" class="form-label">Horario N°3</label>
+                            <input type="time" class="form-control" id="horario3" th:field="*{horario3}">
+                        </div>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-primary" ><span th:text="${band}?'Modificar Pelicula':'Subir Pelicula'"></span>  </button>
+                    <!--<a class="btn btn-light" th:href="@{/}">Volver</a>-->
+                </form>
+      </div>
+    </div>
+    </main> 
+
+    <script th:src="@{/webjars/bootstrap/5.0.0/js/bootstrap.min.js}" type="text/javascript"
+        src="webjars/bootstrap/5.0.0/js/bootstrap.min.js"></script>
+        
+	<!-- SCRIPT -->
+    <!-- JQUERY -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!-- OWL CAROUSEL -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous"></script>
+    <!-- APP SCRIPT -->
+    <script th:src="@{/js/app.js}" src="app.js"></script>
+	
+
+</body>
+
+</html>
