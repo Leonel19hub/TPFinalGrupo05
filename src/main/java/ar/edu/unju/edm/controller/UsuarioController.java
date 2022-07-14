@@ -78,6 +78,7 @@ public class UsuarioController {
 
 		} else {
 			modelView.addObject("idUsuario", authentication.getName());
+			modelView.addObject("band", false);
 		}
 		return modelView;
 	}

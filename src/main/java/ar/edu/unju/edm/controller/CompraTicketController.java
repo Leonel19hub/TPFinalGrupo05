@@ -94,6 +94,7 @@ public class CompraTicketController {
 
 		} else {
 			modelView.addObject("idUsuario", authentication.getName());
+			modelView.addObject("band", false);
 		}
 
 		return modelView;
