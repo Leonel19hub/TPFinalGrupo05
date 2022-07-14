@@ -49,10 +49,12 @@ public class PeliculaController {
 		GRUPO05.info("ingresando al metodo: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
 		ModelAndView modelView = new ModelAndView("subirPelicula");
 		modelView.addObject("unaPelicula", peliculaService.nuevaPelicula());
+		modelView.addObject("band", true);
 		if (authentication == null) {
 
 		} else {
 			modelView.addObject("idUsuario", authentication.getName());
+			modelView.addObject("band", false);
 		}
 		return modelView;
 	}
@@ -99,10 +101,12 @@ public class PeliculaController {
 	public ModelAndView showCourses(Authentication authentication) {
 		ModelAndView vista = new ModelAndView("mostrarPeliculas");
 		vista.addObject("listaPeliculas", peliculaService.listarPeliculas());
+		vista.addObject("band", true);
 		if (authentication == null) {
 
 		} else {
 			vista.addObject("idUsuario", authentication.getName());
+			vista.addObject("band", false);
 		}
 		return vista;
 	}

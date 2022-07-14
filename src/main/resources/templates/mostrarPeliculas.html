@@ -172,6 +172,17 @@
 	<!-- APP SCRIPT -->
 	<script th:src="@{/js/app.js}" src="app.js"></script>
 
+	<script>
+		// Escribir "Cerrar Sesion si hay un usuario logeado"
+
+		var bandera = "[[${band}]]";
+            console.log(bandera);
+
+            if (bandera == "false") {
+                document.getElementById("in-out").textContent = "Cerrar Sesion";
+            }
+	</script>
+
 	<script type="text/javascript">
 		function confirmarEliminar(id) {
 			$("#identificadorDeUsuario").val(id);

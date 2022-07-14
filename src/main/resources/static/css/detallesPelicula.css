@@ -115,10 +115,34 @@
     justify-content: center;
 }
 
+
+
+
+/*Detalles con Bootstrap*/
+
 .movie-info-item{
     display: flex;
     font-size: 1rem;
+    align-items:center;
+    height:80px;
 }
 
 .h4{
+	background-color:green;
+	width:80px;
+	line-height:40px;
+}LIGHTYEAR
+
+.movie-info-item span{
+	background-color:red;
+	line-height:40px;
+}
+
+.title-movie{
+	color:green;
+	text-transform:uppercase;
+	font-family: "Cairo", sans-serif !important;
+	font-weight: 700;
+	letter-spacing:1px;
+	font-size:2rem;
 }

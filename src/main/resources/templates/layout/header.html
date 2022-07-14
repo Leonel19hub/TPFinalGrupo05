@@ -11,20 +11,20 @@
                 </a>
                 <ul class="nav-menu" id="nav-menu">
                     <li><a href="/index">Inicio</a></li>
-                    <li><a href="/nuevaPelicula">Subir Pelicula</a></li>
-                    <li><a href="/mostrarPeliculas">Ver Peliculas</a></li>
-                    <li><a href="/listadoUsuario">Ver Usuarios</a></li>
-                    <li><a href="/mostrarComprasTicket">Ver Tickets</a></li>
-                    <li>
-                        <a href="/login" th:href="@{/logout}" class="button button-hover">
-                            <span sec:authentication="name">Iniciar Sesion</span>
-                        </a>
-                        
+                    <li id="uploadMovie"><a href="/nuevaPelicula">Subir Pelicula</a></li>
+                    <li id="viewMovie"><a href="/mostrarPeliculas">Ver Peliculas</a></li>
+                    <li id="viewUser"><a href="/listadoUsuario">Ver Usuarios</a></li>
+                    <li id="viewTickets"><a href="/mostrarComprasTicket">Ver Tickets</a></li>
+                    <li><a th:href="@{'/misTickets/'+${idUsuario}}">Mis Compras</a></li>
+                    <li><a href="/login" th:href="@{/logout}" class="button button-hover"> <span id="in-out">Iniciar
+                                Sesion</span>
 
-                         <!-- <ul class="inutil">
+
+                        </a>
+                        <!-- <ul class="inutil">
                         		<li>
                         			<a class="button button-hover" th:href="@{/logout}">
-                        			<span th:text="${#authentication.getPrincipal().getUsername()}"></span>
+                        			<span th:text="${#authentication.getPrincipal().getAuthorities()}"></span>
                         			<span>  Salir </span>
                         			<span class="float-rigth">
                         				<i class="fas fa-sing-out-alt"></i>

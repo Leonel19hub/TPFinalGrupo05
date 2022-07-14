@@ -13,12 +13,13 @@
                     <li><a href="/index">Inicio</a></li>
                     <li>
                         <!-- ${band}?@{/editarUsuario}:@{/guardarUsuario} -->
-                        <a  href="/login" th:href="@{/logout}" class="button button-hover">
-                            <span id="nameLogin" sec:authentication="name">Iniciar Sesion</span>
+                        <a href="/login" th:href="@{/logout}" class="button button-hover">
+                            <span id="in-out">Iniciar Sesion</span>
                             <!-- <span th:text="${#authentication.getPrincipal().getUsername()}"></span>
                         			<span>  Salir </span>
                         			<span class="float-rigth">
                         				<i class="fas fa-sing-out-alt"></i>
+                        				<span id="in-out" sec:authentication="name">Iniciar Sesion</span>
                         			</span> -->
                         </a>
 
