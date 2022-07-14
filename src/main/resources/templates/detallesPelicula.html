@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="https://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link th:rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/5.0.2/css/bootstrap.min.css}">
 
     <!-- GOOGLE FONTS -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -15,108 +18,254 @@
     <link rel="stylesheet" href="../static/css/app.css" th:href="@{/css/app.css}">
     <link rel="stylesheet" href="../static/css/grid.css" th:href="@{/css/grid.css}">
     <link rel="stylesheet" href="../static/css/detallesPelicula.css" th:href="@{/css/detallesPelicula.css}">
-    
     <title th:text="${movie.nombrePelicula}"></title>
 </head>
+
+<style>
+    .nav-menu {
+        padding-top: 10px;
+    }
+
+    .card {
+        font-family: "Cairo", sans-serif !important;
+        background-color: #181616;
+        margin: 50px auto;
+        border: none;
+    }
+
+    .iframe {
+        width: 600px;
+        margin: 0 auto;
+    }
+</style>
+
 <body>
+    <div th:insert="/layout/headerCliente :: header"></div>
+    <br>
+    <!--
+	<div class="container-details-movie">
+		<div class="details-movie-header">
+			<h1 th:text="${movie.nombrePelicula}"></h1>
+		</div>
+		<div class="details-movie-body">
+			<div class="movie-trailer-info">
+				<div class="trailer">
+					<iframe width="510" id="trailerMovie" height="265" src=""
+						title="YouTube video player" frameborder="0"
+						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+						allowfullscreen></iframe>
+				</div>
+				<div class="info">
+					<div class="info-title">
+						<h4>Informacion de Cine</h4>
+					</div>
+					<div class='info-date'>
+						<div class="date">Sala</div>
+						<div class="date-content" th:text="'N°  '+${movie.sala}"></div>
+					</div>
+					<div class="info-date">
+						<div class="date">Fecha Estreno</div>
+						<div class="date-content" th:text="${movie.fechaInicio}"></div>
+					</div>
+					<div class="info-date">
+						<div class="date">Ultima Fecha</div>
+						<div class="date-content" th:text="${movie.fechaFinal}"></div>
+					</div>
+					<div class="info-date">
+						<div class="date">Horarios</div>
+						<div class="row-time">
+							<div class="time-movie" th:text="${movie.horario1}"></div>
+							<div class="time-movie" th:text="${movie.horario2}"></div>
+							<div class="time-movie" th:text="${movie.horario3}"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="movie-info">
+			<div class="img">
+				<img th:src="${'data:image/png;base64,'+movie.portada}" alt="" />
+			</div>
+			<div class="movie-info-complete">
+				<div class="movie-info-item">
+					<div class="h4">Titulo de Pelicula:</div>
+					<span th:text="${movie.nombrePelicula}"></span>
+				</div>
+				<div class="movie-info-item">
+					<div class="h4">Genero:</div>
+					<span th:text="${movie.tipo}"></span>
+				</div>
+				<div class="movie-info-item">
+					<div class="h4">Duracion:</div>
+					<i class="bx bxs-time"></i><span
+						th:text="${movie.duracion} + ' min'"></span>
+				</div>
+				<div class="movie-info-item">
+					<div class="h4">Rating:</div>
+					<span th:text="${movie.rating}"><i class="bx bxs-star"></i></span>
+				</div>
+				<div class="movie-info-item">
+					<div class="h4">Sinopsis:</div>
+					<span th:text="${movie.descripcion}"></span>
+				</div>
+			</div>
+		</div>
 
-    <div th:insert="/layout/header :: header"></div><br>
+		<div th:if="${bandCompra==true}">
+			<form th:object="${unaCompraTicket}"
+				th:action="@{/guardarCompraTicket}" method="post">
 
-    <div class="container-details-movie">
-        <div class="details-movie-header">
-            <h1 th:text="${movie.nombrePelicula
-            }"></h1>
-        </div>
-        <div class="details-movie-body">
-            <div class="movie-trailer-info">
-                <!-- <div class="trailer" th:value="${movie.trailer}"> embed/E5xC9i_1vvY -->
-                <div class="trailer">
-                    <iframe width="510" id="trailerMovie" height="265" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> 
+				<div class="row g-3">
+					<div class="col-6 col-sm-6">
+						<label for="exampleInputEmail1" class="form-label">Usuario</label>
+						<select class="form-control" th:field="*{usuario.dni}">
+							<option th:each="u:${usuarios}" th:value="${u.dni}"
+								th:text="${u.apellido}"></option>
+						</select>
+					</div>
+
+				</div>
+				<div class="mb-3">
+					<label for="exampleInputPassword1" class="form-label">Pelicula</label>
+					<select class="form-control" th:field="*{pelicula.idPelicula}">
+						<option th:each="c:${peliculas}" th:value="${c.idPelicula}"
+							th:text="${c.nombrePelicula}"></option>
+					</select>
+				</div>
+				<div class="mb-3">
+					<label for="exampleInputPassword1" class="form-label">Fecha</label>
+					<select class="form-control" th:field="*{pelicula.idPelicula}">
+						<option th:each="c:${peliculas}" th:value="${c.horario1}"
+							th:text="${c.horario1}"></option>
+					</select>
+				</div>
+				<div>
+					<button type="submit" class="btn btn-primary">Comprar</button>
+					<a class="btn btn-light" th:href="@{/}">Volver</a>
+				</div>
+
+			</form>
+		</div>
+
+		<div th:unless="${bandCompra==true}">
+			<h3>Por favor inicie sesion para comprar un boleto</h3>
+		</div>
+
+
+	</div>
+-->
+    <div class="iframe">
+        <iframe width="510" id="trailerMovie" height="265" src="" title="YouTube video player" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+    </div>
+
+
+    <div class="container-fluid">
+        <div class="card mb-3" style="max-width: 900px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img th:src="${'data:image/png;base64,'+movie.portada}" class="img-fluid rounded-start" alt="...">
                 </div>
-                <div class="info">
-                    <div class="info-title">
-                        <h4>Informacion de Cine</h4>
-                    </div>
-                    <div class='info-date'>
-                        <div class="date">Sala</div>
-                        <div class="date-content" th:text="'N°  '+${movie.sala}"></div>
-                    </div>
-                    <div class="info-date">
-                        <div class="date">Fecha Estreno</div>
-                        <div class="date-content" th:text="${movie.fechaInicio}"></div>
-                    </div>
-                    <div class="info-date">
-                        <div class="date">Ultima Fecha</div>
-                        <div class="date-content" th:text="${movie.fechaFinal}"></div>
-                    </div>
-                    <div class="info-date">
-                        <div class="date">Horarios</div>
-                        <div class="row-time">
-                            <div class="time-movie" th:text="${movie.horario1}"></div>
-                            <div class="time-movie" th:text="${movie.horario2}"></div>
-                            <div class="time-movie" th:text="${movie.horario3}"></div>
-                        </div> 
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title title-movie" th:text="${movie.nombrePelicula}"></h5>
+                        <p class="card-text" th:text="${movie.tipo}"></p>
+                        <p class="card-text" th:text="${movie.duracion} + ' min'"></p>
+                        <p class="card-text" th:text="${movie.rating}"></p>
+                        <p class="card-text" th:text="${movie.descripcion}"></p>
+                        <form th:object="${unaCompraTicket}" th:action="@{/guardarCompraTicket}"
+                            th:if="${bandCompra==true}" method="post">
+                            <div class="row g-3">
+                                <div class="col-6 col-sm-6">
+                                    <select class="form-control" th:field="*{usuario.dni}">
+                                        <option th:each="u:${usuarios}" th:value="${u.dni}" th:text="${u.apellido}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-6 col-sm-6">
+                                    <select class="form-control" th:field="*{pelicula.idPelicula}">
+                                        <option th:each="c:${peliculas}" th:value="${c.idPelicula}"
+                                            th:text="${c.nombrePelicula}"></option>
+                                    </select>
+                                </div>
+                                <div class="col-6 col-sm-6">
+                                    <label for="" class="form-label">Fecha</label> <input type="date"
+                                        class="form-control" th:field="*{fechaCompra}">
+                                </div>
+                                <div class="col-6 col-sm-6">
+                                    <label for="" class="form-label">Horario</label> <select class="form-control"
+                                        th:field="*{horario}">
+                                        <option th:each="c:${peliculas}" th:value="${c.horario1}"
+                                            th:text="${c.horario1}"></option>
+                                        <option th:each="c:${peliculas}" th:value="${c.horario2}"
+                                            th:text="${c.horario2}"></option>
+                                        <option th:each="c:${peliculas}" th:value="${c.horario3}"
+                                            th:text="${c.horario3}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div>
+                                <button type="submit" class="btn btn-primary">Comprar</button>
+                                <a class="btn btn-light" th:href="@{/}">Volver</a>
+                            </div>
+
+                        </form>
+                        <div th:unless="${bandCompra==true}">
+                            <a href="/login" class="button button-hover"> <span id="in-out">Iniciar Sesion</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="movie-info">
-            <div class="img">
-                <!-- <img th:src="@{/img/movies/doctor-strange-2-poster.jpg}" src="../static/img/movies/transformer.jpg" alt="">  -->
-                <img th:src="${'data:image/png;base64,'+movie.portada}" alt="" />
-            </div>
-            <div class="movie-info-complete">
-                <div class="movie-info-item">
-                    <div class="h4">Titulo de Pelicula:</div><span th:text="${movie.nombrePelicula}"></span>
-                </div>
-                <div class="movie-info-item">
-                    <div class="h4">Genero:</div><span th:text="${movie.tipo}"></span>
-                </div>
-                <div class="movie-info-item">
-                    <div class="h4">Duracion:</div><i class="bx bxs-time"></i><span th:text="${movie.duracion} + ' min'"></span>
-                </div>
-                <div class="movie-info-item">
-                    <div class="h4">Rating:</div><span th:text="${movie.rating}"><i class="bx bxs-star"></i></span>
-                </div>
-                <div class="movie-info-item">
-                    <div class="h4">Sinopsis:</div><span th:text="${movie.descripcion}"></span>
-                </div>
-                <div class="buy-button">
-                    <a href="/nuevaCompraTicket" class="button button-hover">
-                        <i class="bx bxs-right-arrow"></i>
-                        <span>Comprar Boleto</span>
-                    </a>
-                </div>
-                
-                </div>
-        </div>
-            <!-- <div class="buy-button">
-                <div class="item-action top-down delay-6">
-                    <a href="#" class="button button-hover">
-                        <i class="bx bxs-right-arrow"></i>
-                        <span>Comprar Boleto</span>
-                    </a>
-                </div>
-            </div> -->
         </div>
     </div>
 
     <div th:insert="/layout/footer :: footer"></div>
 
+
+    <script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}" type="text/javascript"
+        src="webjars/jquery/3.6.0/jquery.min.js"></script>
+    <script th:src="@{/webjars/bootstrap/5.0.2/js/bootstrap.min.js}" type="text/javascript"
+        src="webjars/bootstrap/5.0.2/js/bootstrap.min.js"></script>
+
+    <script>
+        /*var tipoSesion = "[[${sesion}]]";
+		console.log(tipoSesion);
+
+		if (tipoSesion == "[CLIENTE]") {
+			$("#uploadMovie").hide();
+			$("#viewMovie").hide();
+			$("#viewUser").hide();
+			$("#viewTickets").hide();
+		}*/
+
+        // Escribir "Cerrar Sesion si no hay ningun usuario logeado"
+
+        var bandera = "[[${bandSesion}]]";
+        console.log(bandera);
+
+        if (bandera == "false") {
+            document.getElementById("in-out").textContent = "Cerrar Sesion";
+        }
+    </script>
+
     <script>
         // document.getElementById("trailerMovie").src="${movie.trailer}";
         var linkTrailer = "[[${linkMovie}]]";
-        console.log(linkTrailer);
-        document.getElementById("trailerMovie").src=linkTrailer;
-        
+        console.log("linktrailer" + linkTrailer);
+        document.getElementById("trailerMovie").src = linkTrailer;
+
+        var trmo = "[[${linkMovie}]]";
+        console.log("trmo" + trmo);
+        document.getElementById("trm").src = trmo;
     </script>
 
 
-	<script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}" type="text/javascript"
-		src="webjars/jquery/3.6.0/jquery.min.js"></script>
-	<script th:src="@{/webjars/bootstrap/5.0.2/js/bootstrap.min.js}" type="text/javascript"
-		src="webjars/bootstrap/5.0.2/js/bootstrap.min.js"></script>
 
 </body>
 </body>
+
 </html>

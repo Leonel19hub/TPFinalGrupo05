@@ -5,10 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inisiar Sesion</title>
-    
-<link th:rel="stylesheet" type="text/css"
-	th:href="@{/webjars/bootstrap/5.0.2/css/bootstrap.min.css}">
+    <title>Iniciar Sesion</title>
+    <link th:rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/5.0.2/css/bootstrap.min.css}">
     <!-- GOOGLE FONTS -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap"
@@ -28,11 +26,16 @@
 
 </head>
 
-
+<style>
+    .alert {
+        width: 70%;
+        margin: 0 auto;
+    }
+</style>
 
 <body class="body-usuarios-cursos">
 
-    <div th:insert="/layout/header :: header"></div>
+    <div th:insert="/layout/headerCliente :: header"></div>
     <br>
     <!-- <i class='bx bx-user' ></i> -->
 
@@ -40,8 +43,8 @@
         <form class="login" form th:object="${usuarioDeForm}" th:action="@{/login}" method="post">
             <p class="title">Iniciar Sesion</p>
             <input type="text" placeholder="DNI" class="form-control" id="dni" name="dni" autofocus />
-            <i class='bx bx-user' ></i>
-            <input type="password" placeholder="Contraseña" class="form-control" id="password" name="contrasena"/>
+            <i class='bx bx-user'></i>
+            <input type="password" placeholder="Contraseña" class="form-control" id="password" name="contrasena" />
             <i class='bx bxs-key'></i>
             <a href="/registroUsuario">¿No tiene una cuenta?</a>
             <button>
